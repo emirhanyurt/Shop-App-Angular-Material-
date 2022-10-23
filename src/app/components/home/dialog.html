@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Sil ?</h1>
+<div mat-dialog-content>
+
+  <p><strong>{{ data.product.name}}</strong><br>İsimli Ürün Sepetinizden Çıkarılacak Eminmisiniz?</p>
+   <br>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()"><mat-icon>settings_backup_restore</mat-icon>hayır</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial><mat-icon>remove_shopping_cart</mat-icon>Evet</button>
+</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ToastrModule, ToastNoAnimation, ToastNoAnimationModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,15 +11,22 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HomeComponent } from './components/home/home.component';
+import { DialogOverviewExampleDialog} from './components/home/home.component';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
+import {MatTableModule} from '@angular/material/table';
+import { NgxSpinnerModule } from "ngx-spinner";
+import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field'
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -30,9 +37,16 @@ import { FormsModule } from '@angular/forms';
     MatDividerModule,
     MatIconModule,
     MatToolbarModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatDialogModule,
+    ToastNoAnimationModule.forRoot()
   ],
-  providers: [],
+  providers: [{provide: "apiUrl",useValue:"https://webapi.angulareducation.com/api/"}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
