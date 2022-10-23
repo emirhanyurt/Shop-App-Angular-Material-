@@ -7,6 +7,8 @@ import { BasketService } from 'src/app/services/basket.service';
 import { ProductService } from 'src/app/services/product.service';
 import { Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { BasketPaymentModelDto } from 'src/app/models/BasketPaymentModuleDTO';
+import { OrderService } from 'src/app/services/order.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
   basketModel:BasketModel[] = []
   displayedColumns: string[] = ['id', 'name', 'quantity', 'total','transaction'];
   
-  constructor(public dialog: MatDialog,private spinner:NgxSpinnerService,private toastr:ToastrService,private productService:ProductService,private basketService:BasketService) { }
+  constructor(private orderService:OrderService,public dialog: MatDialog,private spinner:NgxSpinnerService,private toastr:ToastrService,private productService:ProductService,private basketService:BasketService) { }
   animal: string;
   name: string;
   ngOnInit(): void {
@@ -70,6 +72,41 @@ export class HomeComponent implements OnInit {
       if(result != undefined)
       {
           this.deleteBasket(result)
+      }
+      
+    });
+  }
+  openDialogPayment(): void {
+    const dialogRef = this.dialog.open(paymentDialog, {
+       width: '400px',
+       data: this.basketModel,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined)
+      {
+        if(result.isvalid)
+        {
+          let paymentM = new BasketPaymentModelDto()
+          paymentM.payment = result.value
+          paymentM.baskets = this.basketModel
+          this.spinner.show()
+          this.orderService.add(paymentM).subscribe((res)=>{
+            
+            this.getListBasket()
+            this.spinner.hide()
+            this.toastr.success("Siparişimiz Alınmıştır")
+          },(err)=>{
+            this.spinner.hide()
+            console.log(err)
+            this.toastr.error("Bir Hata Oluştu")
+           })
+        }
+        else{
+          this.toastr.error("Lütfen Tüm Alanları Doldurunuz")
+          
+        }
+          
       }
       
     });
@@ -127,7 +164,7 @@ export class HomeComponent implements OnInit {
     basketModels.product = productModels
     basketModels.productId = productModels.id
     basketModels.quantity = addQuan.value
-    console.log(basketModels)
+   
      this.basketService.add(basketModels).subscribe((res)=>{
       this.getListBasket()
       this.getListProduct()
@@ -141,11 +178,28 @@ export class HomeComponent implements OnInit {
 }
 @Component({
   selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog.html',
+  templateUrl: 'delete-dialog.html',
 })
 export class DialogOverviewExampleDialog {
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'payment-dialog.html',
+  styleUrls: ['./home.component.scss']
+})
+export class paymentDialog {
+  constructor(
+    public dialogRef: MatDialogRef<paymentDialog >,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     

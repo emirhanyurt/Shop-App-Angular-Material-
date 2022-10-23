@@ -11,7 +11,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HomeComponent } from './components/home/home.component';
-import { DialogOverviewExampleDialog} from './components/home/home.component';
+import { DialogOverviewExampleDialog,paymentDialog } from './components/home/home.component';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,14 +19,21 @@ import {MatTableModule} from '@angular/material/table';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { OrderComponent } from './components/order/order.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { LoginComponent } from './components/login/login.component'
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     NavbarComponent,
     HomeComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    paymentDialog,
+    OrderComponent,
+    FilterPipe,
+    LoginComponent 
   ],
   imports: [
     BrowserModule,
