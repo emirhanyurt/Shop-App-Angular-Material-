@@ -36,21 +36,44 @@
                      </div>
                       </div>
                      
-                     <div class="form-group" >
-                        <p>
-                            <mat-form-field appearance="outline">
-                              <mat-label>Alınan Adet</mat-label>
-                              <input min="1"  class="text-center text-danger " autocomplete="off"  style="font-size:200%;" value="1" matInput #addQuantity type="number">
-                              <mat-icon matSuffix>trending_up</mat-icon>
-                            </mat-form-field>
-                          </p>
-                        
-                     </div>
-                     <div class="form-group" *ngIf="product.inventoryQuantity >0">
-                        <button (click)="add(product,addQuantity)" mat-fab color="primary" title="sepete ekle" >
-                            <mat-icon>shopping_cart</mat-icon>
+                    
+                     <div *ngIf="product.inventoryQuantity > 0 && !isAuth">
+                      <div class="form-group">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Adet</mat-label>
+                          <input
+                            type="number"
+                            required
+                            min="1"
+                            [max]="product.inventoryQuantity"
+                            autocomplete="off"
+                            class="text-center"
+                            style="font-size: x-large"
+                            value="1"
+                            matInput
+                            #addQuantity
+                            placeholder="Placeholder"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="form-group">
+                        <button
+                          (click)="add(product, addQuantity)"
+                          mat-raised-button
+                          color="primary"
+                        >
+                        <mat-icon>shopping_cart</mat-icon>
+                          Sepete Ekle
                         </button>
-                     </div>
+                      </div>
+                     
+                    </div>
+                    <div class="form-group" *ngIf="isAuth">
+                      <button  mat-raised-button color="accent">
+                        <mat-icon>check</mat-icon>
+                        Ürünü Güncelle
+                      </button>
+                    </div>
                 </div>
 
             </div>
@@ -58,9 +81,9 @@
         </div>
         
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="!isAuth">
       
-      <table mat-table [dataSource]="basketModel" class="mat-elevation-z8">
+      <table mat-table [dataSource]="basketModel" class="mat-elevation-z8" >
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->

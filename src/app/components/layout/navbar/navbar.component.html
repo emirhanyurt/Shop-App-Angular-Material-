@@ -4,10 +4,10 @@
     </button>
     <span>Alış Veriş</span>
     <button mat-button routerLink="/"><mat-icon>home</mat-icon>Ana Sayfa</button>
-    <button mat-button> <mat-icon> view_stream</mat-icon>Ürün Ekle</button>
-    <button mat-button> <mat-icon> attach_money</mat-icon> Ödenecek Tutar</button>
+    <button mat-button *ngIf="isAuth"> <mat-icon> view_stream</mat-icon>Ürün Ekle</button>
+    
     <button mat-button routerLink="/orders"> <mat-icon>shopping_basket</mat-icon> Siparişler</button>
     <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" routerLink="/Login"  class="mx-4"> <mat-icon>launch</mat-icon>Giriş Yap</button>
-    <button mat-raised-button color="accent"> <mat-icon>exit_to_app</mat-icon>Çıkış Yap</button>
+    <button mat-raised-button color="primary" *ngIf="!isAuth" routerLink="/Login"  class="mx-4"> <mat-icon>launch</mat-icon>Giriş Yap</button>
+    <button mat-raised-button color="accent" *ngIf="isAuth" (click)="logaut()"> <mat-icon>exit_to_app</mat-icon>Çıkış Yap</button>
   </mat-toolbar>

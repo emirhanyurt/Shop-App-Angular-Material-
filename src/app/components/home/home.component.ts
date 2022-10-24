@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
 import { BasketModel } from 'src/app/models/basket';
@@ -9,6 +9,7 @@ import { Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { BasketPaymentModelDto } from 'src/app/models/BasketPaymentModuleDTO';
 import { OrderService } from 'src/app/services/order.service';
+import { AuthService } from 'src/app/services/auth.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -22,20 +23,24 @@ export interface PeriodicElement {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,AfterContentChecked {
   productName:string
   total:number = 0
   productModel:ProductModel[]  = []
   basketModel:BasketModel[] = []
   displayedColumns: string[] = ['id', 'name', 'quantity', 'total','transaction'];
-  
-  constructor(private orderService:OrderService,public dialog: MatDialog,private spinner:NgxSpinnerService,private toastr:ToastrService,private productService:ProductService,private basketService:BasketService) { }
+  isAuth:boolean = false
+  constructor(private authservice:AuthService,private orderService:OrderService,public dialog: MatDialog,private spinner:NgxSpinnerService,private toastr:ToastrService,private productService:ProductService,private basketService:BasketService) { }
   animal: string;
   name: string;
   ngOnInit(): void {
     this.getListProduct()
     this.getListBasket()
+    
   }
+  ngAfterContentChecked(): void {
+    this.isAuth = this.authservice.isAuthenticated();
+   }
   getListProduct()
   {
     this.spinner.show()
