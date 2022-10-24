@@ -4,7 +4,7 @@
     </button>
     <span>Alış Veriş</span>
     <button mat-button routerLink="/"><mat-icon>home</mat-icon>Ana Sayfa</button>
-    <button mat-button *ngIf="isAuth"> <mat-icon> view_stream</mat-icon>Ürün Ekle</button>
+    <button mat-button *ngIf="isAuth" routerLink="/product"> <mat-icon> view_stream</mat-icon>Ürün Ekle</button>
     
     <button mat-button routerLink="/orders"> <mat-icon>shopping_basket</mat-icon> Siparişler</button>
     <span class="example-spacer"></span>

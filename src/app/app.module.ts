@@ -13,8 +13,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { HomeComponent } from './components/home/home.component';
 import { DialogOverviewExampleDialog,paymentDialog } from './components/home/home.component';
 import {MatInputModule} from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {MatCardModule} from '@angular/material/card';
@@ -22,7 +22,10 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { OrderComponent } from './components/order/order.component';
 import { FilterPipe } from './pipes/filter.pipe';
-import { LoginComponent } from './components/login/login.component'
+import { LoginComponent } from './components/login/login.component';
+import { ProductComponent } from './components/product/product.component'
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +36,9 @@ import { LoginComponent } from './components/login/login.component'
     paymentDialog,
     OrderComponent,
     FilterPipe,
-    LoginComponent 
+    LoginComponent,
+    ProductComponent,
+    NotFoundComponent 
   ],
   imports: [
     BrowserModule,
@@ -51,9 +56,11 @@ import { LoginComponent } from './components/login/login.component'
     MatFormFieldModule,
     MatCardModule,
     MatDialogModule,
+    ReactiveFormsModule,
     ToastNoAnimationModule.forRoot()
   ],
-  providers: [{provide: "apiUrl",useValue:"https://webapi.angulareducation.com/api/"}],
+  providers: [{provide: "apiUrl",useValue:"https://webapi.angulareducation.com/api/"},
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,6 +10,21 @@ export class ProductService {
   
   constructor(private httpClient:HttpClient,@Inject("apiUrl") private apiUrl:string) { }
 
+  add(productModel:ProductModel){
+    let api = this.apiUrl + "products/add";
+    return this.httpClient.post(api,productModel);
+  }
+
+  update(productModel:ProductModel){
+    let api = this.apiUrl + "products/update";
+    return this.httpClient.post(api,productModel);
+  }
+
+  getById(guid:string){
+    let api = this.apiUrl + "products/getById?guid=" + guid;
+    return this.httpClient.get(api);
+  }
+
   getList()
   {
     let api = this.apiUrl + "products/getlist"
